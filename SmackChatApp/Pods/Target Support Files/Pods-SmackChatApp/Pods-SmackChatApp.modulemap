@@ -1,0 +1,6 @@
+framework module Pods_SmackChatApp {
+  umbrella header "Pods-SmackChatApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
