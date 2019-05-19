@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ChannelVC.swift
 //  SmackChatApp
 //
 //  Created by AhemadAbbas Vagh on 19/05/19.
@@ -8,13 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ChannelVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.revealViewController()?.rearViewRevealWidth = self.view.frame.width - 60.0
+        
     }
-
-
+    
 }
-
