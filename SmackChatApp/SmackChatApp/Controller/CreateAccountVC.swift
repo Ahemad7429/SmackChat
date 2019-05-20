@@ -1,5 +1,5 @@
 //
-//  LoginVC.swift
+//  CreateAccountVC.swift
 //  SmackChatApp
 //
 //  Created by AhemadAbbas Vagh on 20/05/19.
@@ -8,18 +8,13 @@
 
 import UIKit
 
-class LoginVC: UIViewController {
+class CreateAccountVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     @IBAction func closeBtnTapped(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: UNWIND, sender: nil)
     }
-    
-    @IBAction func createAccoutBtnTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: TO_CREATE_ACCOUNT, sender: nil)
-    }
-    
 }
