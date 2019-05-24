@@ -47,7 +47,7 @@
                                 <rect key="frame" x="273" y="84" width="22" height="22"/>
                                 <state key="normal" image="addChannelButton"/>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileDefault" translatesAutoresizingMaskIntoConstraints="NO" id="9cQ-Cv-eEb">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileDefault" translatesAutoresizingMaskIntoConstraints="NO" id="9cQ-Cv-eEb" customClass="RoundedImageView" customModule="SmackChatApp" customModuleProvider="target">
                                 <rect key="frame" x="16" y="572" width="75" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="YZq-9g-7Eo"/>
@@ -127,6 +127,7 @@
                     </view>
                     <connections>
                         <outlet property="loginBtn" destination="YQu-9s-bfB" id="qYD-Ak-gkD"/>
+                        <outlet property="userProfile" destination="9cQ-Cv-eEb" id="Wzr-vc-hjR"/>
                         <segue destination="lU2-a9-fXe" kind="show" identifier="toLoginVC" id="Jew-5U-LIA"/>
                     </connections>
                 </viewController>
@@ -347,7 +348,7 @@
                                     <action selector="closeBtnTapped:" destination="lU2-a9-fXe" eventType="touchUpInside" id="yo4-Av-qjN"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileDefault" translatesAutoresizingMaskIntoConstraints="NO" id="g87-D0-uRL">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileDefault" translatesAutoresizingMaskIntoConstraints="NO" id="g87-D0-uRL" customClass="RoundedImageView" customModule="SmackChatApp" customModuleProvider="target">
                                 <rect key="frame" x="137.5" y="299" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="JK4-9s-dpj"/>
@@ -403,9 +404,14 @@
                                     <action selector="generateBGColorBtnTapped:" destination="2bA-dI-f2b" eventType="touchUpInside" id="z7o-UA-6SK"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="pwr-6p-3it">
+                                <rect key="frame" x="169" y="215" width="37" height="37"/>
+                                <color key="color" red="0.25882352939999997" green="0.3294117647" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="pwr-6p-3it" firstAttribute="centerX" secondItem="d3m-3a-OCh" secondAttribute="centerX" id="12Q-we-8SD"/>
                             <constraint firstItem="3tp-VH-kAR" firstAttribute="top" secondItem="bGg-wI-obI" secondAttribute="top" constant="40" id="4fd-VB-0nT"/>
                             <constraint firstItem="bGg-wI-obI" firstAttribute="trailing" secondItem="EDB-6r-5A8" secondAttribute="trailing" constant="16" id="670-AW-d47"/>
                             <constraint firstItem="5g9-3B-KRv" firstAttribute="top" secondItem="3tp-VH-kAR" secondAttribute="bottom" constant="40" id="8Tk-Iz-nTp"/>
@@ -421,6 +427,7 @@
                             <constraint firstItem="g87-D0-uRL" firstAttribute="centerX" secondItem="d3m-3a-OCh" secondAttribute="centerX" id="kXR-X4-WgK"/>
                             <constraint firstItem="RXC-Rs-Ufs" firstAttribute="centerX" secondItem="d3m-3a-OCh" secondAttribute="centerX" id="le4-fp-KjY"/>
                             <constraint firstItem="bjb-Pp-ENK" firstAttribute="centerX" secondItem="d3m-3a-OCh" secondAttribute="centerX" id="q4W-K0-MNP"/>
+                            <constraint firstItem="pwr-6p-3it" firstAttribute="centerY" secondItem="d3m-3a-OCh" secondAttribute="centerY" constant="-100" id="rE5-wT-4eb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bGg-wI-obI"/>
                     </view>
@@ -428,6 +435,7 @@
                         <outlet property="emailTF" destination="LQo-vK-AYH" id="Wci-KR-5A8"/>
                         <outlet property="passwordTF" destination="AZu-AX-YlZ" id="m96-kq-HRA"/>
                         <outlet property="profileIMG" destination="g87-D0-uRL" id="GuY-DP-PXM"/>
+                        <outlet property="spinner" destination="pwr-6p-3it" id="R9L-hu-DOe"/>
                         <outlet property="userNameTF" destination="VNE-uC-CF9" id="npt-Vh-kDD"/>
                         <segue destination="1aM-Wk-MQb" kind="unwind" identifier="unwindToChannel" unwindAction="prepareForUnwindWithSender:" id="db8-Da-DRH"/>
                         <segue destination="fff-gg-U4n" kind="show" identifier="toAvatarPickerVC" id="h8I-D5-K32"/>
