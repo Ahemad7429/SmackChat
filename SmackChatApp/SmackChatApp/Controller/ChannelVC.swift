@@ -13,6 +13,7 @@ class ChannelVC: UIViewController {
     //MARK: Outlets
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var userProfile: UIImageView!
+    @IBOutlet weak var tableView: UITableView!
     
     //MARK: LifeCycle Methods
     override func viewDidLoad() {
@@ -58,5 +59,22 @@ class ChannelVC: UIViewController {
             performSegue(withIdentifier: TO_LOGIN, sender: nil)
         }
         
+    }
+}
+
+extension ChannelVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return MessageService.instance.channels.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelCell", for: indexPath) as? ChannelCell else { return UITableViewCell() }
+        cell.configureCell(channel: MessageService.instance.channels[indexPath.row])
+        return cell
     }
 }
