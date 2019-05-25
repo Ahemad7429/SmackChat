@@ -13,6 +13,7 @@ import SwiftyJSON
 class MessageService {
     
     var channels = [Channel]()
+    var selectedChannel: Channel?
     
     static let instance = MessageService()
     
@@ -27,7 +28,7 @@ class MessageService {
                 
                 do {
                     self.channels = try JSONDecoder().decode([Channel].self, from: data)
-                    print(self.channels)
+                    NotificationCenter.default.post(name: .CHANNELS_LOADED, object: nil)
                     completion(true)
                 } catch let error {
                     completion(false)
@@ -48,8 +49,10 @@ class MessageService {
                 completion(false)
                 debugPrint(response.result.error as Any)
             }
-            
         }
-        
+    }
+    
+    func clearAllChannels() {
+        self.channels.removeAll()
     }
 }

@@ -18,8 +18,17 @@ class ChannelVC: UIViewController {
     //MARK: LifeCycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         self.revealViewController()?.rearViewRevealWidth = self.view.frame.width - 60.0
         NotificationCenter.default.addObserver(self, selector: #selector(userDataDidChange(_:)), name: .USER_DATA_DID_CHANGE, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(channelsLoaded(_:)), name: .CHANNELS_LOADED, object: nil)
+        
+        SocketService.instance.getChannel { (success) in
+            if success {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,6 +41,10 @@ class ChannelVC: UIViewController {
         setUpUserInfo()
     }
     
+    @objc func channelsLoaded(_ notification: Notification) {
+        tableView.reloadData()
+    }
+    
     func setUpUserInfo() {
         if AuthService.instance.isLoggedIn {
             loginBtn.setTitle(UserDataService.instance.name, for: .normal)
@@ -41,6 +54,7 @@ class ChannelVC: UIViewController {
             loginBtn.setTitle("Login", for: .normal)
             userProfile.image = #imageLiteral(resourceName: "menuProfileIcon.png")
             userProfile.backgroundColor = UIColor.clear
+            tableView.reloadData()
         }
     }
     
@@ -60,6 +74,14 @@ class ChannelVC: UIViewController {
         }
         
     }
+    
+    @IBAction func addChannelButtonTapped(_ sender: Any) {
+        if AuthService.instance.isLoggedIn {
+            let addChannelVC = AddChannelVC()
+            addChannelVC.modalPresentationStyle = .custom
+            self.present(addChannelVC, animated: true, completion: nil)
+        }
+    }
 }
 
 extension ChannelVC: UITableViewDelegate, UITableViewDataSource {
@@ -76,5 +98,12 @@ extension ChannelVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelCell", for: indexPath) as? ChannelCell else { return UITableViewCell() }
         cell.configureCell(channel: MessageService.instance.channels[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let channel = MessageService.instance.channels[indexPath.row]
+        MessageService.instance.selectedChannel = channel
+        NotificationCenter.default.post(name: .CHANNELS_SELECTED, object: nil)
+        self.revealViewController()?.revealToggle(animated: true)
     }
 }

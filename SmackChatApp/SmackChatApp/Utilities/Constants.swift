@@ -44,4 +44,6 @@ let BEARER_HEADER = [
 
 extension Notification.Name {
     static let USER_DATA_DID_CHANGE = NSNotification.Name("userDataDidChange")
+    static let CHANNELS_LOADED = NSNotification.Name("channelsLoaded")
+    static let CHANNELS_SELECTED = NSNotification.Name("channelSelected")
 }
