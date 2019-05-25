@@ -10,17 +10,28 @@ import UIKit
 
 class ChannelVC: UIViewController {
 
+    //MARK: Outlets
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var userProfile: UIImageView!
-    @IBAction func prepareForUnwind(sender: UIStoryboardSegue) {}
     
+    //MARK: LifeCycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.revealViewController()?.rearViewRevealWidth = self.view.frame.width - 60.0
         NotificationCenter.default.addObserver(self, selector: #selector(userDataDidChange(_:)), name: .USER_DATA_DID_CHANGE, object: nil)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setUpUserInfo()
+    }
+    
+    //MARK: Functions
     @objc func userDataDidChange(_ notification: Notification) {
+        setUpUserInfo()
+    }
+    
+    func setUpUserInfo() {
         if AuthService.instance.isLoggedIn {
             loginBtn.setTitle(UserDataService.instance.name, for: .normal)
             userProfile.image = UIImage(named: UserDataService.instance.avatarName)
@@ -31,6 +42,10 @@ class ChannelVC: UIViewController {
             userProfile.backgroundColor = UIColor.clear
         }
     }
+    
+    //MARK: Action
+    
+    @IBAction func prepareForUnwind(sender: UIStoryboardSegue) {}
     
     @IBAction func loginBtnTapped(_ sender: UIButton) {
         
