@@ -9,7 +9,7 @@
 import UIKit
 
 class ChannelVC: UIViewController {
-
+    
     //MARK: Outlets
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var userProfile: UIImageView!
@@ -26,6 +26,13 @@ class ChannelVC: UIViewController {
         
         SocketService.instance.getChannel { (success) in
             if success {
+                self.tableView.reloadData()
+            }
+        }
+        
+        SocketService.instance.getChatMessage { (newMessage) in
+            if newMessage.channelId != MessageService.instance.selectedChannel?._id && AuthService.instance.isLoggedIn {
+                MessageService.instance.unreadChannels.append(newMessage.channelId)
                 self.tableView.reloadData()
             }
         }
@@ -103,6 +110,14 @@ extension ChannelVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let channel = MessageService.instance.channels[indexPath.row]
         MessageService.instance.selectedChannel = channel
+        
+        if MessageService.instance.unreadChannels.count > 0 {
+            MessageService.instance.unreadChannels = MessageService.instance.unreadChannels.filter { $0 != channel._id }
+        }
+        
+        tableView.reloadRows(at: [indexPath], with: .none)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        
         NotificationCenter.default.post(name: .CHANNELS_SELECTED, object: nil)
         self.revealViewController()?.revealToggle(animated: true)
     }
